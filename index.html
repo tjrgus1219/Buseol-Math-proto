@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>대칭 탐정단: 정전된 학교의 수업 자료를 찾아라!</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#182126;font-family:"Noto Sans KR","Malgun Gothic",sans-serif;color:#222}
+header{background:#202b31;color:#fff;padding:12px 18px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+h1{font-size:clamp(18px,2.5vw,28px);margin:0}.progress{display:flex;gap:5px;flex-wrap:wrap}.step{font-size:12px;padding:6px 9px;border-radius:15px;background:#52636b}.step.on{background:#ffb300;color:#111;font-weight:900}.step.done{background:#2e7d32}
+main{max-width:1180px;margin:auto;padding:14px}.scene{min-height:710px;position:relative;border:5px solid #eceff1;border-radius:18px;overflow:hidden;background-size:cover;background-position:center;box-shadow:0 12px 35px #0008}
+.scene:before{content:"";position:absolute;inset:0;background:#00000018;pointer-events:none}.dark:before{background:#071017b8}.lit:before{background:#00000008}
+.classroom{background-image:url("https://cdnimage.dailian.co.kr/news/202203/news_1646186237_1088702_m_1.jpeg")}
+.computerlab{background-image:url("https://www.ivancna-gorica.si/Files/Gallery/57/495807/l_697374Z6A_4297.jpg")}
+.label{position:absolute;left:16px;top:15px;background:#fffffff2;padding:9px 13px;border-radius:9px;font-weight:900;z-index:4}
+.npc{position:absolute;left:14px;bottom:14px;z-index:10;display:flex;align-items:flex-end;gap:8px;max-width:400px}.avatar{width:56px;height:56px;border-radius:50%;background:#ffe0b2;border:4px solid #fff;display:flex;align-items:center;justify-content:center;font-size:30px}.bubble{background:#fff;padding:8px 11px;border-radius:13px 13px 13px 3px;font-size:12.5px;line-height:1.4;box-shadow:0 3px 12px #0005;max-height:105px;overflow:auto}.bubble b{display:block;color:#1565c0}
+.object{position:absolute;z-index:4;cursor:pointer;transition:.2s;box-shadow:0 5px 16px #0006}.object:hover{transform:scale(1.04);filter:brightness(1.08)}
+.power{right:7%;top:29%;width:160px;height:210px;background:#48555b;border:9px solid #263238;border-radius:8px;color:#fff;padding:17px;text-align:center;font-weight:900}.power .lamp{width:24px;height:24px;border-radius:50%;background:#b71c1c;margin:12px auto;border:3px solid #222}.power.on .lamp{background:#66bb6a;box-shadow:0 0 18px #9cff9c}
+.locker{left:7%;bottom:13%;width:155px;height:275px;background:linear-gradient(90deg,#81939b,#bcc8cd,#7d9098);border:8px solid #52636b;text-align:center;padding-top:24px;font-weight:900}.locker:after{content:"";position:absolute;left:10%;right:10%;top:50%;border-top:4px solid #607d8b}
+.labdoor{right:7%;top:20%;width:190px;height:370px;background:linear-gradient(90deg,#795548,#a97a55,#745037);border:10px solid #4e342e;color:#fff;text-align:center;padding-top:90px;font-size:19px;font-weight:900}.labdoor span{display:block;background:#f5f5f0;color:#222;margin:15px;padding:10px;border-radius:5px}
+.pc{left:38%;top:33%;width:230px;height:160px;background:#151b1e;border:12px solid #455a64;color:#85e7d7;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900}.pc:after{content:"";position:absolute;left:44%;bottom:-55px;width:12%;height:55px;background:#455a64}
+.desktop{position:absolute;inset:0;z-index:3;background:linear-gradient(135deg,#1976d2,#64b5f6 58%,#bbdefb);padding:75px 40px}.folder{width:120px;text-align:center;color:#fff;font-weight:900;cursor:pointer}.folderIcon{font-size:68px;filter:drop-shadow(0 4px 4px #0005)}
+.tip{position:absolute;z-index:5;left:50%;bottom:28px;transform:translateX(-50%);background:#263238e8;color:#fff;padding:9px 15px;border-radius:17px;font-weight:800}
+.quiz,.modal,.finish{position:absolute;z-index:8;left:50%;top:45%;transform:translate(-50%,-50%);width:min(92%,700px);background:#fffffff7;border-radius:18px;padding:17px;box-shadow:0 12px 35px #0008;max-height:590px;overflow:auto}.modal,.finish{text-align:center;width:min(90%,520px)}.quiz h2,.modal h2{margin:0 0 8px;color:#165d7a}.mission{background:#edf7fb;border-left:5px solid #039be5;padding:9px;margin:8px 0;border-radius:6px}.diagram{display:flex;justify-content:center;margin:8px 0}svg{max-width:100%;max-height:245px;background:#fff;border:1px solid #ccd6da;border-radius:10px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0}.choice{background:#fff;color:#111!important;border:2px solid #90a4ae;padding:10px;border-radius:9px;font-weight:900;cursor:pointer}.choice.sel{background:#fff3e0;border-color:#ff9800}.pw{display:flex;gap:7px}.pw input{flex:1;padding:10px;border:2px solid #90a4ae;border-radius:9px;text-transform:uppercase;text-align:center;letter-spacing:3px;font-size:17px}button{border:0;background:#1565c0;color:#fff;padding:10px 16px;border-radius:9px;font-weight:900;cursor:pointer}button:hover{background:#0d47a1}.no{background:#607d8b}.key{display:inline-block;background:#fff8e1;border:2px solid #ffb300;padding:8px 12px;border-radius:10px;font-weight:900}.flash{position:absolute;inset:0;background:#fff;z-index:20;animation:flash .8s forwards;pointer-events:none}@keyframes flash{to{opacity:0}}.hidden{display:none}
+@media(max-width:700px){.scene{min-height:790px}.quiz{top:43%;max-height:560px}.choices{grid-template-columns:1fr}.npc{max-width:88%}.power,.labdoor{right:4%;transform:scale(.85);transform-origin:right top}.locker{left:4%;transform:scale(.85);transform-origin:left bottom}.pc{left:23%;transform:scale(.85)}}
+</style></head>
+<body>
+<header><h1>🔎 대칭 탐정단: 정전된 학교의 수업 자료를 찾아라!</h1><div id="progress" class="progress"></div></header>
+<main><div id="scene" class="scene classroom dark"></div></main>
+<script>
+const data=[
+{name:"전력 장치",codes:["2T7K","7Q3M","49WY","8N1P"],correct:2,
+mission:"정전된 교실의 전력 장치를 작동시키려면 이 도형의 대칭축을 찾아야 합니다.",
+hint:"도형을 선을 따라 접었을 때 양쪽이 완전히 겹치는 선을 찾아보세요.",
+choices:["①번 선","②번 선","③번 선","대칭축이 없다"],
+svg:`<svg viewBox="0 0 420 225" width="420"><polygon points="210,25 330,105 280,200 140,200 90,105" fill="#bbdefb" stroke="#1565c0" stroke-width="4"/><line x1="90" y1="112" x2="330" y2="112" stroke="#e53935" stroke-width="3" stroke-dasharray="7 5"/><text x="338" y="117" font-size="18">①</text><line x1="145" y1="25" x2="265" y2="205" stroke="#8e24aa" stroke-width="3" stroke-dasharray="7 5"/><text x="270" y="202" font-size="18">②</text><line x1="210" y1="15" x2="210" y2="210" stroke="#2e7d32" stroke-width="3" stroke-dasharray="7 5"/><text x="216" y="35" font-size="18">③</text></svg>`},
+{name:"사물함",codes:["B7K2","4H9R","6M2A","1Q8D"],correct:0,
+mission:"컴퓨터실 열쇠가 든 사물함입니다. 가운데 점선이 대칭축일 때 점 A의 대응점을 찾으세요.",
+hint:"A에서 대칭축에 수직으로 이동한 뒤 반대편에서 마주 보는 점을 살펴보세요.",
+choices:["점 B","점 C","점 D","대응점이 없다"],
+svg:`<svg viewBox="0 0 440 235" width="440"><line x1="220" y1="15" x2="220" y2="220" stroke="#ef6c00" stroke-width="4" stroke-dasharray="8 6"/><text x="230" y="32">대칭축</text><circle cx="120" cy="75" r="7" fill="#1565c0"/><text x="96" y="70" font-size="20">A</text><circle cx="320" cy="75" r="7" fill="#d32f2f"/><text x="333" y="80" font-size="20">B</text><circle cx="320" cy="135" r="7" fill="#d32f2f"/><text x="333" y="140" font-size="20">C</text><circle cx="285" cy="75" r="7" fill="#d32f2f"/><text x="296" y="70" font-size="20">D</text></svg>`},
+{name:"컴퓨터 로그인",codes:["8R2B","4L7S","C6P1","1N9E"],correct:0,
+mission:"컴퓨터 비밀번호를 얻으려면 대칭축을 기준으로 변 AB와 대응하는 변을 찾으세요.",
+hint:"A와 B에 각각 대응하는 점을 먼저 찾은 뒤 두 점을 이은 변을 찾으세요.",
+choices:["변 EF","변 FG","변 GH","변 HE"],
+svg:`<svg viewBox="0 0 460 250" width="460"><line x1="230" y1="12" x2="230" y2="238" stroke="#ef6c00" stroke-width="4" stroke-dasharray="8 6"/><polygon points="90,70 170,45 185,180 110,205" fill="#c8e6c9" stroke="#2e7d32" stroke-width="3"/><polygon points="370,70 290,45 275,180 350,205" fill="#c8e6c9" stroke="#2e7d32" stroke-width="3"/><text x="73" y="68">A</text><text x="169" y="38">B</text><text x="187" y="194">C</text><text x="91" y="220">D</text><text x="374" y="68">E</text><text x="276" y="38">F</text><text x="258" y="194">G</text><text x="352" y="220">H</text><line x1="90" y1="70" x2="170" y2="45" stroke="#d32f2f" stroke-width="7"/></svg>`},
+{name:"비밀 폴더",codes:["5K7P","2C8M","7P4A","3D6R"],correct:2,
+mission:"마지막 보안 문제입니다. 잘못 연결된 대응점의 쌍을 찾으세요.",
+hint:"서로 대응하는 점은 대칭축을 사이에 두고 같은 높이에서 마주 봅니다.",
+choices:["A ↔ D","B ↔ E","C ↔ D","C ↔ F"],
+svg:`<svg viewBox="0 0 460 260" width="460"><line x1="230" y1="15" x2="230" y2="245" stroke="#ef6c00" stroke-width="4" stroke-dasharray="8 6"/><g fill="#1565c0"><circle cx="100" cy="55" r="6"/><text x="78" y="50">A</text><circle cx="140" cy="125" r="6"/><text x="116" y="120">B</text><circle cx="85" cy="205" r="6"/><text x="61" y="200">C</text></g><g fill="#c62828"><circle cx="360" cy="55" r="6"/><text x="372" y="60">D</text><circle cx="320" cy="125" r="6"/><text x="332" y="130">E</text><circle cx="375" cy="205" r="6"/><text x="387" y="210">F</text></g></svg>`}
+];
+let power=false,key=false,inLab=false,desktop=false,sel=null,current=null;
+const scene=document.getElementById("scene");
+function npc(t){return `<div class="npc"><div class="avatar">👨‍🏫</div><div class="bubble"><b>장석현 선생님</b>${t}</div></div>`}
+function prog(active=0){let names=["전력 복구","열쇠 찾기","컴퓨터실","컴퓨터","비밀 폴더"];document.getElementById("progress").innerHTML=names.map((n,i)=>`<span class="step ${i<active?'done':i==active?'on':''}">${i<active?'✓':'•'} ${n}</span>`).join("")}
+function classroom(){
+ scene.className="scene classroom "+(power?"lit":"dark");
+ let objs=`<div class="label">🏫 정전된 교실</div>`;
+ if(!power)objs+=`<div class="object power" onclick="quiz(0)"><div class="lamp"></div>전력 장치<br><small>CLICK</small></div>`;
+ else if(!key)objs+=`<div class="object power on"><div class="lamp"></div>전력 정상</div><div class="object locker" onclick="quiz(1)">교사용 사물함<br><br>CLICK</div>`;
+ else objs+=`<div class="object power on"><div class="lamp"></div>전력 정상</div><div class="object locker">사물함<br>열림 🔑</div><div class="object labdoor" onclick="askKey()">컴퓨터실<span>🔒 CLICK</span></div>`;
+ let msg=!power?"갑자기 정전이 됐어! 오른쪽의 전력 장치를 클릭해서 전기를 복구하자.":!key?"전기가 들어왔어! 이제 사물함을 열어 컴퓨터실 열쇠를 찾아보자.":"컴퓨터실 열쇠를 얻었어. 컴퓨터실 문을 클릭해 보자!";
+ scene.innerHTML=objs+npc(msg)+`<div class="tip">${!power?"전력 장치를 클릭하세요":!key?"사물함을 클릭하세요":"컴퓨터실 문을 클릭하세요"}</div>`;
+ prog(!power?0:!key?1:2);
+}
+function askKey(){
+ scene.insertAdjacentHTML("beforeend",`<div class="modal" id="keyModal"><h2>🔑 컴퓨터실 열쇠</h2><p>컴퓨터실 열쇠를 사용하시겠습니까?</p><p class="key">컴퓨터실 열쇠 보유 중</p><br><br><button onclick="useKey()">예</button> <button class="no" onclick="document.getElementById('keyModal').remove()">아니오</button></div>`);
+}
+function useKey(){inLab=true;computerRoom()}
+function computerRoom(){
+ scene.className="scene computerlab lit";
+ scene.innerHTML=`<div class="label">💻 컴퓨터실</div><div class="object pc" onclick="quiz(2)">컴퓨터<br>CLICK TO LOGIN</div>`+npc("열쇠를 사용해 컴퓨터실에 들어왔어! 가운데 컴퓨터를 클릭해서 로그인 문제를 풀어 보자.")+`<div class="tip">컴퓨터를 클릭하세요</div>`;prog(3)
+}
+function desktopView(){
+ desktop=true;scene.className="scene lit";scene.style.backgroundImage="none";
+ scene.innerHTML=`<div class="desktop"><div class="folder" onclick="quiz(3)"><div class="folderIcon">📁</div>비밀 폴더</div></div>`+npc("로그인 성공! 바탕화면이 열렸어. 왼쪽의 비밀 폴더를 클릭해 마지막 문제를 해결하자.")+`<div class="tip">비밀 폴더를 클릭하세요</div>`;prog(4)
+}
+function quiz(i){
+ current=i;sel=null;let d=data[i];
+ let base=i<2?`<div class="label">🏫 교실</div>`:i==2?`<div class="label">💻 컴퓨터실</div>`:`<div class="desktop"></div>`;
+ scene.insertAdjacentHTML("beforeend",`<div class="quiz" id="quiz"><h2>${d.name}</h2><div class="mission">${d.mission}</div><div class="diagram">${d.svg}</div><div class="choices">${d.choices.map((x,k)=>`<button class="choice" onclick="choose(${k},this)">${x} [${d.codes[k]}]</button>`).join("")}</div><div class="pw"><input id="pw" maxlength="4" placeholder="선택한 항목의 암호"><button onclick="check()">답 + 암호 확인</button></div><p style="font-size:12px;color:#546e7a">정답 항목을 클릭한 뒤, 그 항목 옆의 4자리 암호를 입력하세요.</p></div>`);
+}
+function choose(k,e){sel=k;document.querySelectorAll(".choice").forEach(x=>x.classList.remove("sel"));e.classList.add("sel")}
+function check(){
+ let d=data[current],pw=(document.getElementById("pw").value||"").trim().toUpperCase();
+ if(sel===null){alert("먼저 정답이라고 생각하는 항목을 클릭하세요.");return}
+ if(sel===d.correct && pw===d.codes[sel]){
+   document.getElementById("quiz").remove();
+   if(current===0){power=true;scene.insertAdjacentHTML("beforeend",`<div class="flash"></div>`);setTimeout(classroom,650)}
+   else if(current===1){key=true;scene.insertAdjacentHTML("beforeend",`<div class="modal"><h2>🔑 컴퓨터실 열쇠 획득!</h2><p>사물함 안에서 컴퓨터실 열쇠를 찾았습니다.</p><button onclick="classroom()">확인</button></div>`)}
+   else if(current===2)desktopView();
+   else finish();
+ }else{
+   let m=sel!==d.correct?d.hint:"선택한 항목은 맞았어. 그 항목 옆의 4자리 암호를 다시 확인해 봐.";
+   let old=document.getElementById("hint");if(old)old.remove();
+   document.getElementById("quiz").insertAdjacentHTML("beforeend",`<div id="hint" class="mission"><b>장석현 선생님 힌트:</b> ${m}</div>`);
+   document.getElementById("pw").value="";
+ }
+}
+function finish(){
+ scene.className="scene lit";scene.style.backgroundImage="linear-gradient(135deg,#1976d2,#90caf9)";
+ scene.innerHTML=`<div class="finish"><div style="font-size:65px">🎉📚</div><h2>수업 자료를 얻었습니다!</h2><p>대칭축, 대응점, 대응변을 이용해 모든 보안을 해결하고 필요한 수업 자료를 찾았습니다.</p><button onclick="location.reload()">처음부터 다시 하기</button></div>`+npc("훌륭해! 비밀 폴더의 보안도 풀었어. 수업 자료를 무사히 얻었어!");prog(5)
+}
+classroom();
+</script></body></html>
